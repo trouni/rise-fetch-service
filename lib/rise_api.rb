@@ -4,8 +4,7 @@ require 'rest-client'
 require 'json'
 
 class RiseAPI
-  # RISE_API_URL = "https://instaxxeum.herokuapp.com/graphql"
-  RISE_API_URL = 'http://localhost:3000/graphql'
+  RISE_API_URL = "https://instaxxeum.herokuapp.com/graphql"
   UPDATE_INSTAGRAMER_QUERY = <<-'GRAPHQL'
     mutation updateInstagramer
     (
