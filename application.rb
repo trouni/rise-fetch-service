@@ -1,7 +1,11 @@
-require "rubygems"
-require "bundler/setup"
-require "sinatra"
-require File.join(File.dirname(__FILE__), "environment")
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+require 'sinatra'
+require 'json'
+
+require File.join(File.dirname(__FILE__), 'environment')
 
 configure do
   set :views, "#{File.dirname(__FILE__)}/views"
@@ -17,7 +21,15 @@ helpers do
 end
 
 # root page
-get "/" do
-  @profiles = Profile.all
+get '/' do
   erb :root
+end
+
+post '/api/fetch-users' do
+  results = []
+  params = JSON.parse(request.body.read)
+  params['usernames']&.each do |username|
+    results << RiseAPI.fetch_user(username)
+  end
+  results.to_json
 end
