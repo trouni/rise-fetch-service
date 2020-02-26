@@ -14,6 +14,7 @@ class InstagramAPI
 
       attributes = {
         needs_update: false,
+        fetched_at: DateTime.now,
         instagram_id: user_hash['id'],
         biography: user_hash['biography'],
         username: user_hash['username'],
