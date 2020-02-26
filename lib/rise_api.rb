@@ -80,15 +80,18 @@ class RiseAPI
   def self.fetch_user(username)
     attributes = InstagramAPI.fetch_user_info(username)
     response = post_instagramer(attributes)
-    puts response
     result = JSON.parse(response)
-    result = ['data']['updateInstagramer'] if result
-    ok = result['ok']
-    {
-      ok: ok,
-      username: username,
-      message: ok ? 'Successfully fetched info.' : result['errors'].join(' ')
-    }
+    return 'No body in response.' unless result
+
+    if result
+      result = result['data']['updateInstagramer']
+      ok = result['ok']
+      {
+        ok: ok,
+        username: username,
+        message: ok ? 'Successfully fetched info.' : result['errors'].join(' ')
+      }
+    end
   end
 
   def self.post_instagramer(attributes)
