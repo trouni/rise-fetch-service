@@ -80,7 +80,9 @@ class RiseAPI
   def self.fetch_user(username)
     attributes = InstagramAPI.fetch_user_info(username)
     response = post_instagramer(attributes)
-    result = JSON.parse(response)['data']['updateInstagramer']
+    puts response
+    result = JSON.parse(response)
+    result = ['data']['updateInstagramer'] if result
     ok = result['ok']
     {
       ok: ok,
@@ -95,8 +97,7 @@ class RiseAPI
       variables: camelize_hash(attributes)
     }
     headers = { content_type: :json, accept: :json }
-    response = RestClient.post(RISE_API_URL, payload.to_json, headers)
-    response
+    return RestClient.post(RISE_API_URL, payload.to_json, headers)
   end
 
   def self.camelize_hash(variables)
