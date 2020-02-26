@@ -83,15 +83,13 @@ class RiseAPI
     result = JSON.parse(response)
     return 'No body in response.' unless result
 
-    if result
-      result = result['data']['updateInstagramer']
-      ok = result['ok']
-      {
-        ok: ok,
-        username: username,
-        message: ok ? 'Successfully fetched info.' : result['errors'].join(' ')
-      }
-    end
+    result = result['data']['updateInstagramer']
+    ok = result['ok']
+    {
+      ok: ok,
+      username: username,
+      message: ok ? 'Successfully fetched info.' : result['errors'].join(' ')
+    }
   end
 
   def self.post_instagramer(attributes)
