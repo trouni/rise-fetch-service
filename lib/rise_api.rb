@@ -10,6 +10,7 @@ class RiseAPI
     (
         $id: ID,
         $needsUpdate: Boolean,
+        $fetchedAt: ISO8601DateTime,
         $instagramId: String,
         $biography: String,
         $username: String,
@@ -43,6 +44,7 @@ class RiseAPI
             {
                 id: $id,
                 needsUpdate: $needsUpdate,
+                fetchedAt: $fetchedAt,
                 instagramId: $instagramId,
                 biography: $biography,
                 username: $username,
