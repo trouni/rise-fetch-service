@@ -6,7 +6,7 @@ require 'json'
 require 'date'
 
 class InstagramAPI
-  def self.fetch_user_info(username)
+  def self.fetch_user_info(username, id = nil)
     puts "Fetching information for Instagramer user: #{username}"
     begin
       response = RestClient.get("https://www.instagram.com/#{username}/?__a=1")
@@ -45,6 +45,7 @@ class InstagramAPI
       puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
       attributes = { username: username, needs_update: true, info_fetched_at: DateTime.now }
     end
+    attributes = attributes.merge(id: id) if id
     attributes
   end
 
