@@ -108,7 +108,7 @@ class RiseAPI
     {
       ok: ok,
       instagramers: result['instagramers'],
-      message: ok ? 'Successfully fetched info.' : result['errors'].join(' ')
+      message: ok ? 'Successfully fetched info.' : result['errors']&.join(' ')
     }
   end
 
