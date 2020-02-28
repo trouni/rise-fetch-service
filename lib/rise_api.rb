@@ -4,7 +4,7 @@ require 'rest-client'
 require 'json'
 
 class RiseAPI
-  RISE_API_URL = "https://instaxxeum.herokuapp.com/graphql"
+  RISE_API_URL = "https://kesseo-rise.herokuapp.com/graphql"
   UPDATE_INSTAGRAMER_QUERY = <<-'GRAPHQL'
     mutation updateInstagramer
     (
@@ -100,7 +100,7 @@ class RiseAPI
       variables: camelize_hash(attributes)
     }
     headers = { content_type: :json, accept: :json }
-    return RestClient.post(RISE_API_URL, payload.to_json, headers)
+    return RestClient.post(ENV[RISE_API_URL], payload.to_json, headers)
   end
 
   def self.camelize_hash(variables)
