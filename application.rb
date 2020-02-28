@@ -26,10 +26,6 @@ get '/' do
 end
 
 post '/api/fetch-users' do
-  results = []
   params = JSON.parse(request.body.read)
-  params['usernames']&.each do |username|
-    results << RiseAPI.fetch_user(username)
-  end
-  results.to_json
+  puts results = RiseAPI.fetch_users(params['users'])
 end
