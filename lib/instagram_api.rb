@@ -14,7 +14,7 @@ class InstagramAPI
 
       attributes = {
         needs_update: false,
-        fetched_at: DateTime.now,
+        info_fetched_at: DateTime.now,
         instagram_id: user_hash['id'],
         biography: user_hash['biography'],
         username: user_hash['username'],
@@ -43,7 +43,7 @@ class InstagramAPI
       }
     rescue StandardError
       puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
-      attributes = { username: username, needs_update: true, fetched_at: DateTime.now }
+      attributes = { username: username, needs_update: true, info_fetched_at: DateTime.now }
     end
     attributes
   end
