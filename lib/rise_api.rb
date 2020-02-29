@@ -98,7 +98,7 @@ class RiseAPI
     #     username:
     #   }, ...
     # ]
-    instagramers = users.map { |user| InstagramAPI.fetch_user_info(user[:username], user[:id]) }
+    instagramers = users.map { |user| InstagramAPI.fetch_user_info(user['username'], user['id']) }
     response = post_instagramers(instagramers)
     result = JSON.parse(response)
     return 'No body in response.' unless result
