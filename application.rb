@@ -27,5 +27,5 @@ end
 
 post '/api/fetch-users' do
   params = JSON.parse(request.body.read)
-  puts results = RiseAPI.fetch_users(params['users'])
+  RiseAPI.fetch_users(params['users'])
 end
