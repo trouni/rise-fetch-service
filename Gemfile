@@ -4,6 +4,7 @@ gem 'dotenv'
 gem 'rake'
 gem 'json'
 gem 'rest-client'
+gem 'sinatra-run-later'
 
 group :development do
   gem 'foreman'

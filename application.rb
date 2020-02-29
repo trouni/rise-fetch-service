@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+$stdout.sync = true
 
 require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
 require 'json'
+require 'sinatra/run-later'
 
 require File.join(File.dirname(__FILE__), 'environment')
 
@@ -26,10 +28,9 @@ get '/' do
 end
 
 post '/api/fetch-users' do
+  run_later do
+    params = JSON.parse(request.body.read)
+    RiseAPI.fetch_users(params['users'])
+  end
   { ok: true }.to_json
-end
-
-after do
-  params = JSON.parse(request.body.read)
-  RiseAPI.fetch_users(params['users'])
 end
