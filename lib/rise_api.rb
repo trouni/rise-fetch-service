@@ -5,6 +5,7 @@ require 'json'
 
 class RiseAPI
   RISE_API_URL = "https://kesseo-rise.herokuapp.com/graphql"
+  # RISE_API_URL = "http://localhost:3000/graphql"
   GQL_QUERIES = {
     update_instagramers: "
       mutation updateInstagramers( $instagramers: [InstagramerAttributes!]!) {
@@ -109,7 +110,7 @@ class RiseAPI
       ok: ok,
       instagramers: result['instagramers'],
       message: ok ? 'Successfully fetched info.' : result['errors']&.join(' ')
-    }
+    }.to_json
   end
 
   def self.post_instagramers(instagramers)
