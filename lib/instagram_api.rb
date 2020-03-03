@@ -41,7 +41,8 @@ class InstagramAPI
         avg_comments_last_10: avg_engagement(user_hash, :comments_count) { |posts| posts.last(10) },
         avg_comments_30_days: avg_engagement(user_hash, :comments_count) { |posts| posts.select { |post| post[:datetime] > DateTime.now - 30 } }
       }
-    rescue StandardError
+    rescue StandardError => error
+      puts error
       puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
       attributes = { username: username, needs_update: true, info_fetched_at: DateTime.now }
     end
