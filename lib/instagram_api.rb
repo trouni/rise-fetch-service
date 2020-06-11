@@ -6,10 +6,15 @@ require 'json'
 require 'date'
 
 class InstagramAPI
+  USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 123.1.0.26.115 (iPhone11,8; iOS 13_3; en_US; en-US; scale=2.00; 828x1792; 190542906)'
+
   def self.fetch_user_info(username, id = nil)
     puts "Fetching information for Instagramer user: #{username}"
     begin
-      response = RestClient.get("https://www.instagram.com/#{username}/?__a=1")
+      response = RestClient.get(
+        "https://www.instagram.com/#{username}/?__a=1",
+        'User-Agent': USER_AGENT
+      )
       user_hash = JSON.parse(response.body)['graphql']['user']
 
       attributes = {
@@ -41,9 +46,14 @@ class InstagramAPI
         avg_comments_last_10: avg_engagement(user_hash, :comments_count) { |posts| posts.last(10) },
         avg_comments_30_days: avg_engagement(user_hash, :comments_count) { |posts| posts.select { |post| post[:datetime] > DateTime.now - 30 } }
       }
-    rescue StandardError => error
-      puts error
+    rescue OpenURI::HTTPError => e
       puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
+      attributes = { username: username, needs_update: true, info_fetched_at: DateTime.now }
+    rescue JSON::ParserError => e
+      puts 'PARSING ERROR: Request likely blocked by Instagram.'
+      attributes = { username: username, needs_update: true, info_fetched_at: DateTime.now }
+    rescue StandardError => e
+      puts "ERROR: #{e}"
       attributes = { username: username, needs_update: true, info_fetched_at: DateTime.now }
     end
     attributes = attributes.merge(id: id) if id
