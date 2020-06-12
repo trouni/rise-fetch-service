@@ -47,8 +47,8 @@ class InstagramAPI
         avg_comments_30_days: avg_engagement(user_hash, :comments_count) { |posts| posts.select { |post| post[:datetime] > DateTime.now - 30 } }
       }
       puts 'Fetch successful...'
-    rescue OpenURI::HTTPError => e
-      puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
+    # rescue OpenURI::HTTPError => e
+    #   puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
     rescue JSON::ParserError => e
       puts 'PARSING ERROR: Request likely blocked by Instagram.'
     rescue StandardError => e
