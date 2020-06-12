@@ -2,6 +2,7 @@
 
 require 'rest-client'
 require 'json'
+require 'dotenv/load'
 
 class RiseAPI
   RISE_API_URL = "https://kesseo-rise.herokuapp.com/graphql"
@@ -142,7 +143,10 @@ class RiseAPI
       query: GQL_QUERIES[:update_instagramer],
       variables: camelize_hash(attributes)
     }
-    headers = { content_type: :json, accept: :json }
+    headers = {
+      content_type: :json, accept: :json,
+      'Authorization': "Bearer #{ENV['jwt']}"
+    }
     RestClient.post(RISE_API_URL, payload.to_json, headers)
   end
 

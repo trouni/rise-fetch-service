@@ -50,9 +50,9 @@ class InstagramAPI
     # rescue OpenURI::HTTPError => e
     #   puts "NOT FOUND: User #{username} may have updated their username or deleted their account."
     rescue JSON::ParserError => e
-      puts 'PARSING ERROR: Request likely blocked by Instagram.'
+      puts 'PARSING ERROR: Request likely blocked by Instagram.', e
     rescue StandardError => e
-      puts "ERROR: #{e}"
+      puts "ERROR:", e
     end
     attributes ||= { username: username, needs_update: true, info_fetched_at: DateTime.now }
     attributes = attributes.merge(id: id) if id
