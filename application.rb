@@ -28,9 +28,9 @@ get '/' do
 end
 
 post '/api/fetch-users' do
-  run_later do
+  # run_later do
     params = JSON.parse(request.body.read)
     RiseAPI.fetch_users(params['users'])
-  end
+  # end
   { ok: true }.to_json
 end
