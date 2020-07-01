@@ -11,9 +11,14 @@ class InstagramAPI
   def self.fetch_user_info(username, id = nil)
     puts "Fetching information for Instagramer: #{username}"
     begin
+      RestClient.proxy = 'https://sp6bef7ec1:12345678@gate.smartproxy.com:7000'
+      url = "https://www.instagram.com/#{username}/?__a=1"
+      puts "Opening #{url}"
       response = RestClient.get(
-        "https://www.instagram.com/#{username}/?__a=1",
-        'User-Agent': USER_AGENT
+        url,
+        host: 'www.instagram.com',
+        content_type: 'application/json',
+        user_agent: File.open('ig_user_agents.txt').readlines.sample.chomp
       )
       user_hash = JSON.parse(response.body)['graphql']['user']
 
