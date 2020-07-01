@@ -146,9 +146,8 @@ class RiseAPI
     headers = {
       content_type: :json,
       accept: :json,
-      'X-User-Email': ENV['RISE_EMAIL'],
-      'X-User-Token': ENV['RISE_TOKEN'],
-      # Currently JWT auth not working:
+      # 'X-User-Email': ENV['RISE_EMAIL'],
+      # 'X-User-Token': ENV['RISE_TOKEN'],
       'Authorization': "Bearer #{ENV['jwt']}"
     }
     RestClient.post(RISE_API_URL, payload.to_json, headers)
