@@ -149,7 +149,7 @@ class RiseAPI
       'X-User-Email': ENV['RISE_EMAIL'],
       'X-User-Token': ENV['RISE_TOKEN'],
       # Currently JWT auth not working:
-      # 'Authorization': "Bearer #{ENV['jwt']}"
+      'Authorization': "Bearer #{ENV['jwt']}"
     }
     RestClient.post(RISE_API_URL, payload.to_json, headers)
   end
