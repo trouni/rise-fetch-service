@@ -5,8 +5,6 @@ require 'json'
 require 'dotenv/load'
 
 class RiseAPI
-  RISE_API_URL = "https://kesseo-rise.herokuapp.com/graphql"
-  # RISE_API_URL = "http://localhost:3000/graphql"
   GQL_QUERIES = {
     update_instagramers: "
       mutation updateInstagramers( $instagramers: [InstagramerAttributes!]!) {
@@ -119,8 +117,7 @@ class RiseAPI
       query: GQL_QUERIES[:update_instagramers],
       variables: { instagramers: instagramers.map { |attributes| camelize_hash(attributes) } }
     }
-    headers = { content_type: :json, accept: :json }
-    RestClient.post(RISE_API_URL, payload.to_json, headers)
+    post_to_rise(payload)
   end
 
   def self.fetch_user(username)
@@ -143,14 +140,7 @@ class RiseAPI
       query: GQL_QUERIES[:update_instagramer],
       variables: camelize_hash(attributes)
     }
-    headers = {
-      content_type: :json,
-      accept: :json,
-      # 'X-User-Email': ENV['RISE_EMAIL'],
-      # 'X-User-Token': ENV['RISE_TOKEN'],
-      'Authorization': "Bearer #{ENV['jwt']}"
-    }
-    RestClient.post(RISE_API_URL, payload.to_json, headers)
+    post_to_rise(payload)
   end
 
   def self.camelize_hash(variables)
@@ -161,5 +151,18 @@ class RiseAPI
 
   def self.lower_camelize(str)
     str.to_s.split('_').map.with_index { |word, index| index.zero? ? word : word.capitalize }.join
+  end
+
+  private
+
+  def self.post_to_rise(payload)
+    headers = {
+      content_type: :json,
+      accept: :json,
+      # 'X-User-Email': ENV['RISE_EMAIL'],
+      # 'X-User-Token': ENV['RISE_TOKEN'],
+      'Authorization': "Bearer #{ENV['jwt']}"
+    }
+    RestClient.post(ENV['RISE_API_URL'], payload.to_json, headers)
   end
 end
