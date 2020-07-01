@@ -144,8 +144,12 @@ class RiseAPI
       variables: camelize_hash(attributes)
     }
     headers = {
-      content_type: :json, accept: :json,
-      'Authorization': "Bearer #{ENV['jwt']}"
+      content_type: :json,
+      accept: :json,
+      'X-User-Email': ENV['RISE_EMAIL'],
+      'X-User-Token': ENV['RISE_TOKEN'],
+      # Currently JWT auth not working:
+      # 'Authorization': "Bearer #{ENV['jwt']}"
     }
     RestClient.post(RISE_API_URL, payload.to_json, headers)
   end
